@@ -1,3 +1,4 @@
+module Admin
 class PagesController < ApplicationController
   before_action :set_page, only: [:show, :edit, :update, :destroy]
 
@@ -71,4 +72,5 @@ class PagesController < ApplicationController
     def page_params
       params.require(:page).permit(:title, :body, :slug)
     end
+end
 end
