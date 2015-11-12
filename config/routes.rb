@@ -2,6 +2,11 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :pages
   end
+  
+  # Loops through slugs to give each a route
+  Page.where.not("slug", nil).all.each do |page|
+    get "/#{page.slug}", controller: "pages", action: "show", id: page.id
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
