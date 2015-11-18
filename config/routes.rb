@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   resources :categories
+  
+  resources :pages, only: [:show]
 
   namespace :admin do
     resources :pages
