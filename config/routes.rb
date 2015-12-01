@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
-  resources :categories
+  resources :categories, only: [:show]
   
   resources :pages, only: [:show]
 
   namespace :admin do
     resources :pages
+    resources :categories
   end
   
   # Loops through slugs to give each a route
