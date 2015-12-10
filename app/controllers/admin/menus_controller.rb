@@ -6,6 +6,7 @@ module Admin
   
     def new
       @menu = Menu.new
+      10.times { @menu.menu_items.build }
     end
   
     def create
@@ -28,6 +29,7 @@ module Admin
   
     def edit
       @menu = Menu.find params[:id]
+      10.times { @menu.menu_items.build }
     end
   
     def destroy
