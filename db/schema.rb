@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151202143445) do
+ActiveRecord::Schema.define(version: 20151214142211) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -34,6 +34,17 @@ ActiveRecord::Schema.define(version: 20151202143445) do
 
   add_index "ckeditor_assets", ["assetable_type", "assetable_id"], name: "idx_ckeditor_assetable"
   add_index "ckeditor_assets", ["assetable_type", "type", "assetable_id"], name: "idx_ckeditor_assetable_type"
+
+  create_table "fields", force: :cascade do |t|
+    t.integer  "page_id"
+    t.integer  "field_definition_id"
+    t.string   "value"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "fields", ["field_definition_id"], name: "index_fields_on_field_definition_id"
+  add_index "fields", ["page_id"], name: "index_fields_on_page_id"
 
   create_table "menu_items", force: :cascade do |t|
     t.string   "title"
@@ -61,5 +72,11 @@ ActiveRecord::Schema.define(version: 20151202143445) do
   end
 
   add_index "pages", ["category_id"], name: "index_pages_on_category_id"
+
+  create_table "types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
 end
