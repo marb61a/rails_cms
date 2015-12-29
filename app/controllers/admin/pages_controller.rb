@@ -15,7 +15,10 @@ class PagesController < ApplicationController
 
   # GET /pages/new
   def new
-    @page = Page.new
+    @page = Page.new type: Type.where(name: params[:type]).first
+    @page.type.field_definitions.each do |definition|
+      @page.fields.build field_definition: definition
+    end
   end
 
   # GET /pages/1/edit
@@ -25,17 +28,18 @@ class PagesController < ApplicationController
   # POST /pages
   # POST /pages.json
   def create
-    @page = Page.new(page_params)
+      @page = Page.new(page_params)
 
-    respond_to do |format|
-      if @page.save
-        format.html { redirect_to @page, notice: 'Page was successfully created.' }
-        format.json { render :show, status: :created, location: @page }
-      else
-        format.html { render :new }
-        format.json { render json: @page.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @page.save
+          Rails.application.reload_routes!
+          format.html { redirect_to admin_page_path(@page), notice: 'Page was successfully created.' }
+          format.json { render :show, status: :created, location: @page }
+        else
+          format.html { render :new }
+          format.json { render json: @page.errors, status: :unprocessable_entity }
+        end
       end
-    end
   end
 
   # PATCH/PUT /pages/1
@@ -43,6 +47,7 @@ class PagesController < ApplicationController
   def update
     respond_to do |format|
       if @page.update(page_params)
+        Rails.application.reload_routes!
         format.html { redirect_to @page, notice: 'Page was successfully updated.' }
         format.json { render :show, status: :ok, location: @page }
       else
